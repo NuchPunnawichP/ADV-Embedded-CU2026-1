@@ -1,0 +1,7 @@
+# ESP-IDF generated output
+build/
+sdkconfig
+sdkconfig.old
+
+# OS/editor noise
+.DS_Store
