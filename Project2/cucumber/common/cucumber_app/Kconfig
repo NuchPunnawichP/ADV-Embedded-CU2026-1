@@ -1,0 +1,12 @@
+menu "Cucumber Project 2 settings"
+
+config CUCUMBER_BOARD_ID
+    int "Cucumber board ID"
+    range 1 4
+    default 1
+
+config CUCUMBER_HOSTNAME
+    string "DHCP hostname"
+    default "cucumber-1"
+
+endmenu

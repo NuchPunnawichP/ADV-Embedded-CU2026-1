@@ -1,0 +1,9 @@
+# ESP-IDF per-board output
+**/build/
+**/sdkconfig
+**/sdkconfig.old
+
+# Yocto build output lives outside the layer, but keep accidental output out.
+tmp/
+sstate-cache/
+downloads/

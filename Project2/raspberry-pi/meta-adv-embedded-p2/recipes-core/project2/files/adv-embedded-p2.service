@@ -1,0 +1,14 @@
+[Unit]
+Description=Advanced Embedded Project 2 network setup
+After=network-online.target
+Wants=network-online.target
+Before=hostapd.service dnsmasq.service chronyd.service
+Wants=hostapd.service dnsmasq.service chronyd.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/adv-embedded-p2-start
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

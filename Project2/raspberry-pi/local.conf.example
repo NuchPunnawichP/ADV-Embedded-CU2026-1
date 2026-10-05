@@ -1,0 +1,13 @@
+# Add these layers to conf/bblayers.conf (paths are workspace-specific):
+#   ${TOPDIR}/../meta-raspberrypi
+#   ${TOPDIR}/../meta-openembedded/meta-oe
+#   ${TOPDIR}/../Project2/raspberry-pi/meta-adv-embedded-p2
+
+# Select the Pi model actually being used.
+MACHINE ??= "raspberrypi4-64"
+
+# Required by common Raspberry Pi Wi-Fi setups; adjust for the selected model.
+IMAGE_INSTALL:append = " linux-firmware-bcm43430"
+
+# Optional during first bring-up; do not keep a production root password empty.
+EXTRA_IMAGE_FEATURES:append = " debug-tweaks"
