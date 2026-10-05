@@ -1,38 +1,60 @@
 # Raspberry Pi Yocto image
 
-This layer targets a Raspberry Pi machine supplied by `meta-raspberrypi` and
-expects a Poky build with `meta-openembedded/meta-oe` available for networking
-packages. The image stays intentionally small while adding OpenSSH, hostapd,
-dnsmasq, chrony, nftables, and the Project 2 configuration package.
+## What this image does
 
-## Before building
+The image is a minimal Raspberry Pi Yocto image for Project 2. It provides only
+the required course services: OpenSSH, Wi-Fi access point, DHCP, routing/NAT,
+upstream NTP synchronization, and downstream NTP for the Cucumber boards.
 
-1. Obtain the exact Chulalongkorn University NTP hostname from the instructor.
-2. Edit only this marked value:
+| Interface/service | Purpose |
+| --- | --- |
+| `eth0` | University network / WAN connection |
+| `wlan0` | `ADV-EMBEDDED-P2` Wi-Fi access point |
+| `hostapd` | Creates the access point |
+| `dnsmasq` | Gives clients `192.168.50.100`–`192.168.50.150` leases |
+| `chrony` | Gets university time and serves Pi time to the boards |
+| `nftables` | IPv4 forwarding and NAT through `eth0` |
+
+## Build the image
+
+1. Ask the instructor for the exact Chulalongkorn University NTP hostname.
+2. Update this one required setting before building:
 
    ```text
    meta-adv-embedded-p2/recipes-core/project2/files/adv-embedded-p2.conf
    CHULA_NTP_SERVER=REPLACE_WITH_CHULA_NTP_SERVER
    ```
 
-3. Initialize a compatible Poky/Yocto workspace and source `oe-init-build-env`.
-   Add `meta-raspberrypi`, `meta-openembedded/meta-oe`, and this layer to
-   `BBLAYERS`; see [local.conf.example](local.conf.example).
-4. Set `MACHINE` to the actual Pi model (for example `raspberrypi4-64`), add
-   the Wi-Fi firmware appropriate for that model, and build:
+3. Create a compatible Poky build environment and run `oe-init-build-env`.
+4. Add these layers to `BBLAYERS`:
+
+   - `meta-raspberrypi`
+   - `meta-openembedded/meta-oe`
+   - `Project2/raspberry-pi/meta-adv-embedded-p2`
+
+5. In `conf/local.conf`, set the Pi model in `MACHINE` and include the needed
+   Wi-Fi firmware. [local.conf.example](local.conf.example) is the starting
+   point.
+6. Build the image:
 
    ```sh
    bitbake adv-embedded-p2-image
    ```
 
-5. Write the resulting `.wic` image to an SD card using the normal Yocto
-   deployment process, boot with Ethernet connected, and log in over the
-   serial console or SSH.
+7. Write the generated `.wic` image to an SD card, connect Ethernet, and boot
+   the Pi. Use the serial console or OpenSSH for first access.
 
-## Runtime checks
+## First boot and verification
+
+Run this short health check first:
 
 ```sh
 adv-embedded-p2-status
+```
+
+For detailed checks:
+
+```sh
 ip -4 addr show wlan0
 systemctl status adv-embedded-p2 hostapd dnsmasq chronyd
 chronyc tracking
@@ -41,9 +63,14 @@ chronyc clients
 nft list ruleset
 ```
 
-`adv-embedded-p2-start` may be run after changing `/etc/adv-embedded-p2/`
-files. Restart the service afterward: `systemctl restart adv-embedded-p2`.
+The Pi is ready when `wlan0` is `192.168.50.1/24`, the services are healthy,
+and `chronyc tracking` shows synchronization. A phone or Cucumber connected to
+`ADV-EMBEDDED-P2` with password `ADVEmbedded2026` should receive an address in
+the configured DHCP range.
 
-For a demo, connect a phone or Cucumber to `ADV-EMBEDDED-P2` using
-`ADVEmbedded2026`; it should get a `192.168.50.100–150` lease. The network is
-lab-only: rotate the default password before a real deployment.
+After changing `/etc/adv-embedded-p2/adv-embedded-p2.conf`, restart the setup
+and time service:
+
+```sh
+systemctl restart adv-embedded-p2 chronyd
+```

@@ -1,24 +1,35 @@
 # Final demonstration checklist
 
-## Raspberry Pi
+Use this document during the final presentation. Record a screenshot or serial
+log beside each completed check if the instructor requires evidence.
 
-- [ ] The approved Chulalongkorn NTP hostname has replaced the marked
-  placeholder in `adv-embedded-p2.conf`.
-- [ ] `ip -4 addr show wlan0` shows `192.168.50.1/24`.
-- [ ] `systemctl status adv-embedded-p2 hostapd dnsmasq chronyd` is healthy.
-- [ ] `chronyc tracking` reports a synchronized upstream source.
-- [ ] `chronyc clients` shows Cucumber clients after they synchronize.
-- [ ] `nft list ruleset` contains the `adv_embedded_p2` table.
+## 1. Raspberry Pi readiness
 
-## Cucumber boards
+- [ ] The university NTP hostname replaces the marked placeholder in
+  `adv-embedded-p2.conf`.
+- [ ] `ip -4 addr show wlan0` reports `192.168.50.1/24`.
+- [ ] `systemctl status adv-embedded-p2 hostapd dnsmasq chronyd` shows all
+  required services healthy.
+- [ ] `chronyc tracking` confirms the Pi is synchronized upstream.
+- [ ] `nft list ruleset` includes both Project 2 firewall/NAT tables.
 
-- [ ] Each board joins `ADV-EMBEDDED-P2` with its own hostname.
-- [ ] Each receives an address in `192.168.50.100–150`.
-- [ ] Each serial monitor shows `NTP synchronized` and a local `ICT` time.
-- [ ] Restart one board and verify Wi-Fi reconnection and time synchronization.
+## 2. Board connection and time
 
-## End-to-end
+| Owner | Expected identity | Evidence to show |
+| --- | --- | --- |
+| Nuch | Board 1 / `cucumber-1` | DHCP address and ICT serial time |
+| Thiha | Board 2 / `cucumber-2` | DHCP address and ICT serial time |
+| June | Board 3 / `cucumber-3` | DHCP address and ICT serial time |
+| Windy | Board 4 / `cucumber-4` | DHCP address and ICT serial time |
 
-- [ ] A connected client can reach the Internet through the Pi (NAT).
-- [ ] The Pi continues supplying LAN time after a board reconnects.
-- [ ] Record the four leases, NTP status, and serial output for the submission.
+- [ ] Every board joined `ADV-EMBEDDED-P2` and received an address from
+  `192.168.50.100–150`.
+- [ ] Every serial monitor shows `NTP synchronized` and an `ICT` local time.
+- [ ] `chronyc clients` on the Pi shows NTP requests from the board network.
+
+## 3. Resilience and end-to-end proof
+
+- [ ] Restart one board and show automatic Wi-Fi reconnection and time recovery.
+- [ ] From a connected client, prove Internet access through Pi NAT.
+- [ ] Save the Pi status output, four DHCP leases, and four serial logs for the
+  submission.

@@ -98,8 +98,8 @@ void cucumber_app_start(void)
 
     setenv("TZ", CUCUMBER_TIMEZONE, 1);
     tzset();
-    ESP_LOGI(TAG, "Board %d starting as %s", CONFIG_CUCUMBER_BOARD_ID,
-             CONFIG_CUCUMBER_HOSTNAME);
+    ESP_LOGI(TAG, "Board %d (%s) starting as %s", CONFIG_CUCUMBER_BOARD_ID,
+             CONFIG_CUCUMBER_OWNER_NAME, CONFIG_CUCUMBER_HOSTNAME);
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
     ESP_ERROR_CHECK(esp_wifi_start());

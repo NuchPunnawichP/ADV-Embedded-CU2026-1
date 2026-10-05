@@ -9,4 +9,8 @@ config CUCUMBER_HOSTNAME
     string "DHCP hostname"
     default "cucumber-1"
 
+config CUCUMBER_OWNER_NAME
+    string "Board owner name"
+    default "Nuch"
+
 endmenu

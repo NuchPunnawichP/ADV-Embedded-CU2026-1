@@ -1,12 +1,13 @@
 # Advanced Embedded Systems — CU 2026/1
 
-This repository contains the course projects as independent, buildable
-projects.
+This repository is organized by course project. Each directory is independent:
+open the README inside the project you want to build.
 
-| Project | Purpose |
-| --- | --- |
-| [Project1](Project1/README.md) | Original Gravitech Cucumber ESP32-S2 starter: GPIO2 blink and serial output. It was moved unchanged from the repository root. |
-| [Project2](Project2/README.md) | Raspberry Pi Yocto access-point/time-server image plus four Cucumber ESP32-S2 Wi-Fi/NTP clients. |
+| Project | What it contains | Start here |
+| --- | --- | --- |
+| [Project 1](Project1/README.md) | Original Gravitech Cucumber ESP32-S2 LED/serial starter. Its source and settings were preserved during the restructure. | [Project1/README.md](Project1/README.md) |
+| [Project 2](Project2/README.md) | Yocto Raspberry Pi access point/NTP server and four ESP32-S2 Cucumber clients. | [Project2/README.md](Project2/README.md) |
 
-Start with the README for the project you are building. Project 2 has an
-integration guide and a final demonstration checklist.
+For Project 2, read the project overview first, then use the Pi and Cucumber
+guides. The integration guide assigns the four boards and the demo checklist
+is the final verification record.
